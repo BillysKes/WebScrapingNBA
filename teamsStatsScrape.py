@@ -19,9 +19,10 @@ if player_stats_table:
         cells = row.find_all('td')
         if len(cells) > 0:
             team_name = cells[1].text.strip()
-            wins = cells[3].text.strip()
-            losses = cells[4].text.strip()
-            winRatio = cells[5].text.strip()
+            wins = (cells[3].text.strip())
+            losses = (cells[4].text.strip())
+            winRatio = float( (int(wins) / (int(wins) + int(losses))))
+           # print(winRatio)
             points_per_game = cells[7].text.strip()
             fgRatio = cells[10].text.strip()
             _3pointRatio = cells[13].text.strip()
@@ -30,14 +31,19 @@ if player_stats_table:
                 'Team': team_name,
                 'wins': wins,
                 'losses': losses,
-                'Win Percentage': winRatio,
+                'Win Percentage': "{:.2f}".format(winRatio),
                 'Points Per Game': points_per_game,
                 'Field Goal Percentage': fgRatio,
                 '3 point Percentage': _3pointRatio
             })
     csv_filename = 'teams_stats.csv'
-    fieldnames = ['Team', 'wins', 'losses', 'Win percentage','Points Per Game','Field Goal Percentage', '3 point '
-                                                                                                        'Percentage']
+    fieldnames = ['Team',
+                  'wins',
+                  'losses',
+                  'Win Percentage',
+                  'Points Per Game',
+                  'Field Goal Percentage',
+                  '3 point Percentage']
     with open(csv_filename, mode='w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames, extrasaction='ignore')
         writer.writeheader()
